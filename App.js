@@ -32,12 +32,18 @@ export default function App() {
 	}
 
 	const handleSubmit = () => {
-		var newTask = [{
-			id: getLastId(),
-			title: task,
-			checked: false
-		}]
-		setTasks((oldTask) => [...oldTask, ...newTask]);
+		if (task != null && task.length > 0) {
+			var newTask = [{
+				id: getLastId(),
+				title: task,
+				checked: false
+			}]
+			setTasks((oldTask) => [...oldTask, ...newTask]);
+			setTask(null);
+		}
+		else {
+			alert('le champ est vide');
+		}
 	}
 
 	const handleFinishTask = (id) => {
