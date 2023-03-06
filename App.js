@@ -32,13 +32,11 @@ export default function App() {
 	}
 
 	const handleSubmit = () => {
-
 		var newTask = [{
 			id: getLastId(),
 			title: task,
 			checked: false
 		}]
-
 		setTasks((oldTask) => [...oldTask, ...newTask]);
 	}
 
@@ -50,7 +48,6 @@ export default function App() {
 	}
 
 	const Item = ({ item }) => {
-
 		return (
 			<View style={styles.itemContainer}>
 				<Text style={styles.itemContainerTitle}>{item.title}</Text>
