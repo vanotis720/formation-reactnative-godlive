@@ -8,7 +8,7 @@ export default function App() {
 	const [tasks, setTasks] = useState([]);
 	const [task, setTask] = useState(null);
 
-	const getDate = () => {
+	const getTodayDate = () => {
 		return new Date();
 	}
 
@@ -38,6 +38,7 @@ export default function App() {
 				title: task,
 				checked: false
 			}]
+
 			setTasks((oldTask) => [...oldTask, ...newTask]);
 			setTask(null);
 		}
@@ -55,17 +56,27 @@ export default function App() {
 
 	const Item = ({ item }) => {
 		return (
-			<View style={styles.itemContainer}>
+			<View style={styles.itemContainer} key={item.id}>
 				<Text style={styles.itemContainerTitle}>{item.title}</Text>
-				<TouchableOpacity
-					onPress={() => handleFinishTask(item.id)}
-				>
-					{
-						(item.checked) ?
-							<AntDesign name="checkcircle" size={40} color="black" /> :
-							<MaterialIcons name="radio-button-unchecked" size={40} color="black" />
-					}
-				</TouchableOpacity>
+				<View style={styles.itemContainerIcon}>
+					<TouchableOpacity
+						onPress={() => handleFinishTask(item.id)}
+					>
+						{
+							(item.checked) ?
+								<AntDesign name="checkcircle" size={40} color="black" /> :
+								<MaterialIcons name="radio-button-unchecked" size={40} color="black" />
+						}
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => {
+							setTasks((oldTask) => oldTask.filter((task) => task.id != item.id))
+						}}
+					>
+						<AntDesign name="delete" size={30} color="red" />
+
+					</TouchableOpacity>
+				</View>
 			</View>
 		);
 	}
@@ -77,18 +88,18 @@ export default function App() {
 				<View style={styles.topSectionFullDate}>
 					<Text style={styles.topSectionDay}>
 						{
-							getDate().getDate()
+							getTodayDate().getDate()
 						}
 					</Text>
 					<View>
 						<Text style={styles.topSectionMonth}>
 							{
-								castMonthTostring(getDate().getMonth())
+								castMonthTostring(getTodayDate().getMonth())
 							}
 						</Text>
 						<Text style={styles.topSectionYear}>
 							{
-								getDate().getFullYear()
+								getTodayDate().getFullYear()
 							}
 						</Text>
 					</View>
@@ -96,7 +107,7 @@ export default function App() {
 				<View style={styles.topSectionDayString}>
 					<Text style={styles.topSectionDayStringText}>
 						{
-							castDayOfTheWeekTostring(getDate().getDay())
+							castDayOfTheWeekTostring(getTodayDate().getDay())
 						}
 					</Text>
 				</View>
@@ -116,7 +127,7 @@ export default function App() {
 					onChangeText={(text) => {
 						setTask(text);
 					}}
-					onEndEditing={() => handleSubmit()}
+					onSubmitEditing={() => handleSubmit()}
 				/>
 				<TouchableOpacity
 					onPress={() => handleSubmit()}
@@ -198,5 +209,8 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: '600',
 		textTransform: 'capitalize'
+	},
+	itemContainerIcon: {
+		flexDirection: 'row'
 	}
 });
