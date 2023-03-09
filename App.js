@@ -122,7 +122,7 @@ export default function App() {
 			<View style={styles.actionSection}>
 				<TextInput
 					style={styles.actionInput}
-					placeholder={'Saisir une tache a faire'}
+					placeholder={'Saisir une tâche'}
 					value={task}
 					onChangeText={(text) => {
 						setTask(text);
